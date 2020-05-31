@@ -1,1 +1,30 @@
-  
+  ## Defining Components
+  TwitterAgent.sources = Twitter
+  TwitterAgent.channels = FileChannel
+  TwitterAgent.sinks = HDFS
+
+  ## Component Configuration
+  TwitterAgent.sources.Twitter.type = org.apache.flume.source.twitter.TwitterSource
+  TwitterAgent.sources.Twitter.channels = FileChannel
+  TwitterAgent.sources.Twitter.consumerKey = Nj65AJLn3Tx7wUo6isJh5q3kb
+  TwitterAgent.sources.Twitter.consumerSecret = 5ag7lzM1u4a1Mm2aAx2HpvFzSgeo0I3ZgsucXobcbmtcxRchlQ
+  TwitterAgent.sources.Twitter.accessToken = 799090227751120896-rJG4750uwBvwdOyxrqRJnIYlJ1pBPqR
+  TwitterAgent.sources.Twitter.accessTokenSecret = iLIItfyhVNHVhCI9AcLWjUjmODRQUqCCy22PHWVRq5QqZ
+  TwitterAgent.sources.Twitter.maxFileSize = 10737418240
+  TwitterAgent.sources.Twitter.maxBatchSize = 50000
+  TwitterAgent.sources.Twitter.maxBatchDurationMillis = 100000
+  TwitterAgent.sources.Twitter.keywords = Coronavirus
+
+  TwitterAgent.channels.FileChannel.type = file
+  TwitterAgent.channels.FileChannel.checkpointDir = /usr/local/flume/sample_tweets
+  TwitterAgent.channels.FileChannel.dataDirs = /usr/local/flume/data
+  TwitterAgent.channels.FileChannel.trackerDir = /usr/local/flume/data
+
+  TwitterAgent.sinks.HDFS.channel = FileChannel
+  TwitterAgent.sinks.HDFS.type = hdfs
+  TwitterAgent.sinks.HDFS.hdfs.path = hdfs://localhost:54310/datasets/covid_tweets
+  TwitterAgent.sinks.HDFS.hdfs.filePrefix = tweets-
+  TwitterAgent.sinks.HDFS.hdfs.fileType = DataStream
+  TwitterAgent.sinks.HDFS.hdfs.batchSize = 2000000
+  TwitterAgent.sinks.HDFS.hdfs.rollSize = 0
+  TwitterAgent.sinks.HDFS.hdfs.rollCount = 20000000
