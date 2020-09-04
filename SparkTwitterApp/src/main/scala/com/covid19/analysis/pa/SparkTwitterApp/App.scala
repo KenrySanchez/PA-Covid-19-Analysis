@@ -20,6 +20,7 @@ object TwitterModelProtocol extends DefaultJsonProtocol {
 }
 
 import TwitterModelProtocol._
+import com.univocity.parsers.csv.CsvWriter
 
 object App {
 
@@ -45,9 +46,6 @@ object App {
     val rdd = sparkContext.parallelize(List(delimitedFile))
 
     val filesRdd = rdd.flatMap(f => f.toString().split(delimiter))
-
-    val stringWritter = new StringWriter()
-    var csvFile = new CSVWriter(stringWritter)
     
     val twitterRdd = filesRdd.map(json => {
 
@@ -63,25 +61,23 @@ object App {
 
     })
 
-    twitterRdd.collect().foreach((i) => {
-
-      i match {
-        case Some(value) => println(value)
-        case None => println("Error kenry")
-      }
-    })
-
     twitterRdd.map(model => {
-
+      
       model match {
-        case Some(value) => List(value.id, value.name, value.entryDate, value.tweet).toArray
+        case Some(value) => List(value.id_str, value.text, value.created_at, value.source).toArray
       }
     }).mapPartitions(list => {
+      
+      val stringWritter = new StringWriter();
+      val csvFile = new CSVWriter(stringWritter)
 
       csvFile.writeAll(list.toList.asJava)
       Iterator(stringWritter.toString)
 
-    }).saveAsTextFile("~/Downloads")
+    })
+      
+//      .saveAsTextFile("/Users/kenrysanchez/DEV/PA-Covid-19-Analysis/resources/tweets/demo")
+//      })
 
   }
 

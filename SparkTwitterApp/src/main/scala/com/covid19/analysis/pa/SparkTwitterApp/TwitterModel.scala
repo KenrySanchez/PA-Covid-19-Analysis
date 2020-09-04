@@ -2,4 +2,4 @@ package com.covid19.analysis.pa.SparkTwitterApp
 
 import spray.json.DefaultJsonProtocol
 
-case class TwitterModel(id: String, name: String, entryDate: String, tweet: String)
+case class TwitterModel(source: String, id_str: String, created_at: String, text: String)
