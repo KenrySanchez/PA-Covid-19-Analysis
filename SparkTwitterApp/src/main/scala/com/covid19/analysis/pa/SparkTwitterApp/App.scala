@@ -74,10 +74,7 @@ object App {
       csvFile.writeAll(list.toList.asJava)
       Iterator(stringWritter.toString)
 
-    })
-      
-//      .saveAsTextFile("/Users/kenrysanchez/DEV/PA-Covid-19-Analysis/resources/tweets/demo")
-//      })
+    }).saveAsTextFile("/Users/kenrysanchez/DEV/PA-Covid-19-Analysis/resources/tweets/demo/output")
 
   }
 
