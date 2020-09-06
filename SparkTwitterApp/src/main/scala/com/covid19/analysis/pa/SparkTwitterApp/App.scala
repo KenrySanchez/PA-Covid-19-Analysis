@@ -33,7 +33,6 @@ object App {
   //TODO: Try to optimize it later to work in docker
   val FILE_PATH = "/Users/kenrysanchez/DEV/PA-Covid-19-Analysis/resources/tweets/demo/demo_tweet.json"
   
-  //TODO: We should get these properties from file
   val spark = SparkSession.builder().master("local").appName("Twitter_Spark_App").getOrCreate()
   val sparkContext = spark.sparkContext
   val delimiter = "##"
@@ -78,7 +77,7 @@ object App {
       csvFile.writeAll(list.toList.asJava)
       Iterator(stringWritter.toString)
 
-    }).saveAsTextFile("")
+    }).saveAsTextFile(args(0))
 
   }
 
