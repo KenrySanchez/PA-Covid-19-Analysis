@@ -21,6 +21,8 @@ object TwitterModelProtocol extends DefaultJsonProtocol {
 
 import TwitterModelProtocol._
 import com.univocity.parsers.csv.CsvWriter
+import java.text.ParseException
+import org.scalatools.testing.Logger
 
 object App {
 
@@ -41,7 +43,7 @@ object App {
    */
 
   def main(args: Array[String]) {
-
+        
     val jsonFile = sparkContext.textFile(FILE_PATH).reduce(_ + _)
     val delimitedFile = jsonFile.replaceAll(" ", "").replaceAll("\\}\\{", "\\}\\##\\{")
     
@@ -53,7 +55,6 @@ object App {
 
       try {
 
-        //TODO: Revisar esto ya que esta dando error al momento de serializar el objeto
         val jsonParser = json.parseJson
         Some(jsonParser.convertTo[TwitterModel])
 
@@ -67,6 +68,7 @@ object App {
       
       model match {
         case Some(value) => List(value.id_str, value.text, value.created_at, value.source).toArray
+        case None => throw new Exception("Parse Json was not allowed")
       }
     }).mapPartitions(list => {
       
@@ -76,7 +78,7 @@ object App {
       csvFile.writeAll(list.toList.asJava)
       Iterator(stringWritter.toString)
 
-    }).saveAsTextFile("/Users/kenrysanchez/DEV/PA-Covid-19-Analysis/resources/tweets/demo/output")
+    }).saveAsTextFile("")
 
   }
 
