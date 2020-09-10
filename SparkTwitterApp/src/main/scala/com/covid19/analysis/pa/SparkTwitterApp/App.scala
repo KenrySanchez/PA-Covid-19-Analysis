@@ -6,6 +6,8 @@ import org.apache.spark.sql.SparkSession
 import java.io.StringWriter
 import au.com.bytecode.opencsv.CSVWriter
 
+import com.covid19.analysis.pa.SparkTwitterApp.TwitterUtility.buildTwitterWrapperList;
+
 import collection.JavaConverters._
 
 import spray.json._
@@ -63,7 +65,7 @@ object App {
     twitterRdd.map(model => {
       
       model match {
-        case Some(value) => List(value.id_str, value.text, value.created_at, value.source).toArray
+        case Some(value) => buildTwitterWrapperList(value)
         case None => throw new Exception("Parse Json was not allowed")
       }
     }).mapPartitions(list => {
