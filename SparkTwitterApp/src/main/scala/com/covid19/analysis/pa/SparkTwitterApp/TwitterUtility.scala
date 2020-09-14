@@ -1,5 +1,9 @@
 package com.covid19.analysis.pa.SparkTwitterApp
 
+/**
+ * @author KASV
+ */
+
 object TwitterUtility {
   
   def buildTwitterWrapperList(value: TwitterModel): Array[String] = {
