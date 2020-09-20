@@ -24,7 +24,6 @@ object TwitterModelProtocol extends DefaultJsonProtocol {
 import TwitterModelProtocol._
 import com.univocity.parsers.csv.CsvWriter
 import java.text.ParseException
-import org.scalatools.testing.Logger
 import org.apache.spark.SparkConf
 
 object App {
