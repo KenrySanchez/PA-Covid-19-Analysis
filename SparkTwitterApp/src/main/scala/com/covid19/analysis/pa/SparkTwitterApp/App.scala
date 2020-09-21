@@ -3,10 +3,8 @@ package com.covid19.analysis.pa.SparkTwitterApp
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
-import java.io.StringWriter
-import au.com.bytecode.opencsv.CSVWriter
 
-import com.covid19.analysis.pa.SparkTwitterApp.TwitterUtility.buildTwitterWrapperList;
+import com.covid19.analysis.pa.SparkTwitterApp.TwitterUtility._;
 
 import collection.JavaConverters._
 
@@ -22,7 +20,6 @@ object TwitterModelProtocol extends DefaultJsonProtocol {
 }
 
 import TwitterModelProtocol._
-import com.univocity.parsers.csv.CsvWriter
 import java.text.ParseException
 import org.apache.spark.SparkConf
 
@@ -64,18 +61,7 @@ object App {
 
     val filesRdd = rdd.flatMap(f => f.toString().split(delimiter))
 
-    val twitterRdd = filesRdd.map(json => {
-
-      try {
-
-        val jsonParser = json.parseJson
-        Some(jsonParser.convertTo[TwitterModel])
-
-      } catch {
-        case t: Throwable => None
-      }
-
-    })
+    val twitterRdd = filesRdd.map(json => buildTwitterModelFromJson(json))
 
     twitterRdd.map(model => {
 
@@ -83,15 +69,7 @@ object App {
         case Some(value) => buildTwitterWrapperList(value)
         case None => throw new Exception("Parse Json was not allowed")
       }
-    }).mapPartitions(list => {
-
-      val stringWritter = new StringWriter();
-      val csvFile = new CSVWriter(stringWritter)
-
-      csvFile.writeAll(list.toList.asJava)
-      Iterator(stringWritter.toString)
-
-    }).saveAsTextFile(args(1))
+    }).mapPartitions(list => listToCSVFile(list)).saveAsTextFile(args(1))
 
   }
 

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.covid19.analysis.pa</groupId>
 	<artifactId>SparkTwitterApp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<description>My wonderfull scala app</description>
 	<inceptionYear>2018</inceptionYear>
@@ -139,6 +139,7 @@
 					<parallel>false</parallel>
 					<!-- Comma separated list of JUnit test class names to execute -->
 					<!-- <jUnitClasses>com.covid19.analysis.pa.test.AppTesting</jUnitClasses> -->
+					<argLine>-Xmx1536m -XX:MaxPermSize=512m -XX:ReservedCodeCacheSize=512m</argLine>
 				</configuration>
 				<executions>
 					<execution>

@@ -1,16 +1,13 @@
 package com.covid19.analysis.pa.test
 
 import org.apache.spark.SharedSparkContext
-import org.scalatest.FunSuite
 
-import com.covid19.analysis.pa.SparkTwitterApp.App
+import com.covid19.analysis.pa.SparkTwitterApp.TwitterUtility._;
+
 import org.scalatest.FunSpec
-import scala.reflect.io.File
-import java.io.StringReader
-import au.com.bytecode.opencsv.CSVReader
 import org.junit.Test
-import org.apache.spark.SparkContext
-
+import org.specs2.specification.BeforeSpec
+import org.junit.Before
 import scala.io.Source
 
 /**
@@ -18,27 +15,39 @@ import scala.io.Source
  */
 
 @Test
-class AppTesting extends FunSpec {
-  
-  it("testing twitter model wrapper") {
+class AppTesting extends FunSpec with SharedSparkContext {
+
+  it("testing twitter parse/transformation function") {
     
+    val input = this.getClass.getResourceAsStream("/demo_tweet.json")
+    
+    val text = Source.fromInputStream(input).getLines().reduce(_ + _)
+
+//    val jsonFile = sc.textFile(this.getClass.getResourceAsStream(name)("/demo_tweet.json").getPath).reduce(_ + _)
+
+    val rdd = sc.parallelize(List(text))
+    
+    val twitterRdd = rdd.map(json => buildTwitterModelFromJson(json)).map(model => {
+
+      model match {
+        case Some(value) => buildTwitterWrapperList(value)
+        case None => throw new Exception("Parse Json was not allowed")
+      }
+    })
+    
+    assert(twitterRdd.collect().length > 0, true)
+
   }
 
   it("testing csvFile with data") {
 
-    val input1 = ""
-    val fileDirectory = "~/."
+    val arrayList = Array("source", "id", "create", "text")
 
-    App.main(Array(input1, fileDirectory))
+    val iterable = Iterator(arrayList)
 
-    println("paso aqui kenry")
-    
-    val bufferedSource = Source.fromFile(fileDirectory)
-    val iter = bufferedSource.getLines()
-    
-    bufferedSource.close()
+    val csv = listToCSVFile(iterable)
 
-    assert(true, iter.length > 0)
+    assert(csv.length > 0, true)
 
   }
 
