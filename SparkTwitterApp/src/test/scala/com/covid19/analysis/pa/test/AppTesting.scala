@@ -23,8 +23,6 @@ class AppTesting extends FunSpec with SharedSparkContext {
     
     val text = Source.fromInputStream(input).getLines().reduce(_ + _)
 
-//    val jsonFile = sc.textFile(this.getClass.getResourceAsStream(name)("/demo_tweet.json").getPath).reduce(_ + _)
-
     val rdd = sc.parallelize(List(text))
     
     val twitterRdd = rdd.map(json => buildTwitterModelFromJson(json)).map(model => {
@@ -39,7 +37,7 @@ class AppTesting extends FunSpec with SharedSparkContext {
 
   }
 
-  it("testing csvFile with data") {
+  it("testing fulfill CSVFile file") {
 
     val arrayList = Array("source", "id", "create", "text")
 
