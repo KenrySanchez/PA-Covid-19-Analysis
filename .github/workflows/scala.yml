@@ -17,5 +17,13 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    
+    - name: Cache Maven Packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('SparkTwitterApp/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2  
+
     - name: Run tests
-      run: sbt test
+      run: mvn -B verify --file SparkTwitterApp/pom.xml
