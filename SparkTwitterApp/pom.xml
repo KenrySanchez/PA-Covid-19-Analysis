@@ -118,6 +118,19 @@
 						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<launchers>
+						<launcher>
+							<id>App</id>
+							<mainClass>com.covid19.analysis.pa.SparkTwitterApp.App</mainClass>
+							<!-- args are optional -->
+							<args>
+								<arg>${args}</arg>
+							</args>
+						</launcher>
+						<!-- you could define other launcher -->
+					</launchers>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -139,7 +152,8 @@
 					<parallel>false</parallel>
 					<!-- Comma separated list of JUnit test class names to execute -->
 					<!-- <jUnitClasses>com.covid19.analysis.pa.test.AppTesting</jUnitClasses> -->
-					<argLine>-Xmx1536m -XX:MaxPermSize=512m -XX:ReservedCodeCacheSize=512m</argLine>
+					<argLine>-Xmx1536m -XX:MaxPermSize=512m
+						-XX:ReservedCodeCacheSize=512m</argLine>
 				</configuration>
 				<executions>
 					<execution>

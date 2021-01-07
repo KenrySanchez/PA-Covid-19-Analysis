@@ -24,17 +24,6 @@ import scala.collection.Iterator
 object TwitterUtility {
 
   /**
-   * Function to create a new list with values from the twitterModel.
-   *
-   * @param model twitter model to serve as a source from the new list.
-   *
-   * @return List of String based on Twitter attributes.
-   */
-  def buildTwitterWrapperList(model: TwitterModel): Array[String] = {
-    List(model.id_str, model.text, model.created_at, model.source).toArray
-  }
-
-  /**
    * Function to create the model wrapper from json object.
    *
    * @param json Json object as string to parse.
@@ -54,21 +43,5 @@ object TwitterUtility {
       case t: Throwable => None
     }
 
-  }
-
-  /**
-   * Function to create CSV file from iterator.
-   * 
-   * @param list Iterator of strings.
-   * 
-   * @return CSV file written by an iterator.
-   */
-  def listToCSVFile(list: Iterator[Array[String]]) = {
-
-    val stringWritter = new StringWriter();
-    val csvFile = new CSVWriter(stringWritter)
-
-    csvFile.writeAll(list.toList.asJava)
-    Iterator(stringWritter.toString)
   }
 }

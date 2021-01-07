@@ -2,3 +2,8 @@
 **/.DS_Store
 
 .DS_Store
+.cache-main
+.cache-tests
+
+.settings
+.settings/org.eclipse.core.resources.prefs
